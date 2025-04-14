@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { generateClient } from "aws-amplify/data";
+import { DataStore } from "@aws-amplify/datastore";
 
-const client = generateClient<Schema>();
+const client = DataStore;
 
 function App() {
 	const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
