@@ -6,10 +6,9 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 const client = generateClient<Schema>();
 
 type AppProps = {
-	user: AuthUser;
-	signOut: () => void;
+	user: ReturnType<typeof useAuthenticator>["user"];
+	signOut: ReturnType<typeof useAuthenticator>["signOut"];
 };
-
 function App({ user, signOut }: AppProps) {
 	const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
