@@ -1,21 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { Authenticator } from "@aws-amplify/ui-react";
-import { Amplify } from "aws-amplify";
-// import outputs from "../amplify_outputs.json";
-import awsExports from "./aws-exports.ts";
-import "@aws-amplify/ui-react/styles.css";
 
-Amplify.configure(awsExports);
+function MockAuthenticator({ children }: { children: (props: any) => JSX.Element }) {
+    const [user, setUser] = useState<{ loginId: string } | null>(null);
+
+    if (!user) {
+        const handleLogin = () => {
+            const loginId = window.prompt("Enter your login ID:");
+            if (loginId) setUser({ loginId });
+        };
+        return (
+            <div style={{ textAlign: "center", marginTop: "20%" }}>
+                <h1>Login</h1>
+                <button onClick={handleLogin}>Login</button>
+            </div>
+        );
+    }
+
+    return children({ user, signOut: () => setUser(null) });
+}
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
-		<Authenticator>
-			{({ signOut, user }) => (
-				<App user={user} signOut={signOut} />
-			)}
-		</Authenticator>
-	</React.StrictMode>
+    <React.StrictMode>
+		<MockAuthenticator>
+            {({ signOut, user }) => <App user={user} signOut={signOut} />}
+        </MockAuthenticator>
+    </React.StrictMode>
 );
