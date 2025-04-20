@@ -42,7 +42,7 @@ const formFields = {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<Authenticator>
+		<Authenticator formFields={formFields}>
 			<App />
 		</Authenticator>
 	</React.StrictMode>
