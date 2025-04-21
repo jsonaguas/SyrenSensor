@@ -11,31 +11,59 @@ Amplify.configure(outputs);
 
 const formFields = {
 	signUp: {
-		email: {
+		// Basic Information
+		name: {
 			order: 1,
+			label: "Full Name",
+			placeholder: "Enter your full name",
+			isRequired: true,
 		},
-		password: {
+		email: {
 			order: 2,
+			label: "Email",
+			placeholder: "Enter your email",
+			isRequired: true,
 		},
-		confirm_password: {
+		phone_number: {
 			order: 3,
+			label: "Phone Number",
+			placeholder: "Enter your phone number",
+			isRequired: true,
+		},
+		// Personal Details
+		birthdate: {
+			order: 4,
+			label: "Date of Birth",
+			placeholder: "YYYY-MM-DD",
+			type: "date",
+			isRequired: true,
 		},
 		gender: {
-			order: 4,
-			label: "Gender",
-			placeholder: "Enter your Gender",
-		},
-		name: {
 			order: 5,
+			label: "Gender",
+			placeholder: "Enter your gender identity",
+			type: "text",
 		},
 		address: {
 			order: 6,
+			label: "Address",
+			placeholder: "Enter your address",
+			type: "textarea",
 		},
-		birthdate: {
+		// Security
+		password: {
 			order: 7,
+			label: "Password",
+			placeholder: "Create a strong password",
+			isRequired: true,
+			type: "password",
 		},
-		phone_number: {
+		confirm_password: {
 			order: 8,
+			label: "Confirm Password",
+			placeholder: "Confirm your password",
+			isRequired: true,
+			type: "password",
 		},
 	},
 };
