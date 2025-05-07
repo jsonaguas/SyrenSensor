@@ -60,6 +60,7 @@ export default function Settings() {
       });
 
       alert('Successfully submitted');
+      console.log(submitStatus);
       console.log(userSubmit)
       console.log(emergencyContactSubmit)
       console.log(bluetoothDeviceSubmit)
