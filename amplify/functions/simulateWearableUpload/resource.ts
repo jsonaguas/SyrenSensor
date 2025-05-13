@@ -16,25 +16,6 @@ export const simulateWearableUpload = defineFunction((scope) => {
     },
   });
 
-//   const statement = new iam.PolicyStatement({
-//   sid: "DynamoDBPermissions",
-//   actions: ["dynamodb:DescribeTable", "dynamodb:PutItem"],
-//   resources: [`arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_HEALTHSNAPSHOT_NAME}`,
-//     `arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_TODO_NAME}`
-//   ],
-// })
-// fn.addToRolePolicy(statement);
-
-  // fn.addToRolePolicy(new PolicyStatement({
-  //     actions: ["dynamodb:DescribeTable", "dynamodb:PutItem"],
-  //     resources: [`arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_HEALTHSNAPSHOT_NAME}`,
-  //       `arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_TODO_NAME}`
-
-// ],
-
-//     })
-//   );
-
   new Rule(scope, "HourlySchedule", {
     schedule: Schedule.rate(Duration.hours(1)),
     targets: [new LambdaFunction(fn)],
