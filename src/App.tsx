@@ -15,25 +15,25 @@ function App() {
 			next: (data) => setTodos([...data.items]),
 		});
 	}, []);
-	useEffect(() => {
-		if (user) {
-			const interval = setInterval(() => {
-				const heartRate = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
-				const oxygenLevel = Math.floor(Math.random() * (100 - 90 + 1)) + 90;
+	// useEffect(() => {
+	// 	if (user) {
+	// 		const interval = setInterval(() => {
+	// 			const heartRate = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
+	// 			const oxygenLevel = Math.floor(Math.random() * (100 - 90 + 1)) + 90;
 
-				client.models.HealthSnapshot.create({
-					userID: user?.signInDetails?.loginId ?? "unknown",
-					heartRate,
-					oxygenLevel,
-					timestamp: Date.now(),
-				})
-					.then((res) => console.log("Simulated snapshot sent:", res))
-					.catch((err) => console.error("Simulated snapshot failed:", err));
-			}, 10000);
+	// 			client.models.HealthSnapshot.create({
+	// 				userID: user?.signInDetails?.loginId ?? "unknown",
+	// 				heartRate,
+	// 				oxygenLevel,
+	// 				timestamp: Date.now(),
+	// 			})
+	// 				.then((res) => console.log("Simulated snapshot sent:", res))
+	// 				.catch((err) => console.error("Simulated snapshot failed:", err));
+	// 		}, 10000);
 
-			return () => clearInterval(interval);
-		}
-	}, [user]);
+	// 		return () => clearInterval(interval);
+	// 	}
+	// }, [user]);
 
 
 	function deleteTodo(id: string) {

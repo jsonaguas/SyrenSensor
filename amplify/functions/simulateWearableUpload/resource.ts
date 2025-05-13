@@ -4,8 +4,7 @@ import { Duration } from "aws-cdk-lib";
 import { Rule, Schedule } from "aws-cdk-lib/aws-events";
 import { LambdaFunction } from "aws-cdk-lib/aws-events-targets";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
-// import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-// import * as iam from "aws-cdk-lib/aws-iam";
+
 
 export const simulateWearableUpload = defineFunction((scope) => {
   const fn = new NodejsFunction(scope, "SimulateWearableUpload", {
@@ -17,7 +16,7 @@ export const simulateWearableUpload = defineFunction((scope) => {
   });
 
   new Rule(scope, "HourlySchedule", {
-    schedule: Schedule.rate(Duration.hours(1)),
+    schedule: Schedule.rate(Duration.minutes(10)),
     targets: [new LambdaFunction(fn)],
   });
 
