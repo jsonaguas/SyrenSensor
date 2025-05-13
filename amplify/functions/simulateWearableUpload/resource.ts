@@ -4,7 +4,8 @@ import { Duration } from "aws-cdk-lib";
 import { Rule, Schedule } from "aws-cdk-lib/aws-events";
 import { LambdaFunction } from "aws-cdk-lib/aws-events-targets";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+// import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 export const simulateWearableUpload = defineFunction((scope) => {
   const fn = new NodejsFunction(scope, "SimulateWearableUpload", {
@@ -15,15 +16,24 @@ export const simulateWearableUpload = defineFunction((scope) => {
     },
   });
 
-  fn.addToRolePolicy(new PolicyStatement({
-      actions: ["dynamodb:DescribeTable", "dynamodb:PutItem"],
-      resources: [`arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_HEALTHSNAPSHOT_NAME}`,
-        `arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_TODO_NAME}`
+  const statement = new iam.PolicyStatement({
+  sid: "DynamoDBPermissions",
+  actions: ["dynamodb:DescribeTable", "dynamodb:PutItem"],
+  resources: [`arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_HEALTHSNAPSHOT_NAME}`,
+    `arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_TODO_NAME}`
+  ],
+})
+fn.addToRolePolicy(statement);
 
-],
+  // fn.addToRolePolicy(new PolicyStatement({
+  //     actions: ["dynamodb:DescribeTable", "dynamodb:PutItem"],
+  //     resources: [`arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_HEALTHSNAPSHOT_NAME}`,
+  //       `arn:aws:dynamodb:us-east-1:767398061569:table/${process.env.DATA_TODO_NAME}`
 
-    })
-  );
+// ],
+
+//     })
+//   );
 
   new Rule(scope, "HourlySchedule", {
     schedule: Schedule.rate(Duration.hours(1)),
