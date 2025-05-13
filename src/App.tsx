@@ -6,7 +6,7 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import PatientDashboard from "./components/PatientDashboard";
 import Settings from "./components/Settings";
 import NavBar from './components/NavBar';
-
+import { SettingsProvider } from './context/SettingsContext';
 //const client = generateClient<Schema>();
 
 function App() {
@@ -15,17 +15,20 @@ function App() {
 	// if (!user) {
 	// 	return null
 	// }
+	
 	return (
-		<div className="flex flex-col min-h-screen">
-			<div className='flex-grow'>
-				<Routes>
-					<Route path="/" element={<Navigate to="/dashboard" replace />} />
-					<Route path="/dashboard" element ={<PatientDashboard/>}/>
-					<Route path="/settings" element ={<Settings/>}/>
-				</Routes>
+		<SettingsProvider>
+			<div className="flex flex-col min-h-screen">
+				<div className='flex-grow'>
+					<Routes>
+						<Route path="/" element={<Navigate to="/dashboard" replace />} />
+						<Route path="/dashboard" element ={<PatientDashboard/>}/>
+						<Route path="/settings" element ={<Settings/>}/>
+					</Routes>
+				</div>
+				<NavBar/>
 			</div>
-			<NavBar/>
-		</div>
+		</SettingsProvider>
 	);
 }
 
