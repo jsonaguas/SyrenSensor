@@ -1,8 +1,8 @@
 import { defineFunction } from "@aws-amplify/backend";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import { Duration } from "aws-cdk-lib";
-import { Rule, Schedule } from "aws-cdk-lib/aws-events";
-import { LambdaFunction } from "aws-cdk-lib/aws-events-targets";
+// import { Duration } from "aws-cdk-lib";
+// import { Rule, Schedule } from "aws-cdk-lib/aws-events";
+// import { LambdaFunction } from "aws-cdk-lib/aws-events-targets";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
 
 
@@ -15,10 +15,10 @@ export const simulateWearableUpload = defineFunction((scope) => {
     },
   });
 
-  new Rule(scope, "HourlySchedule", {
-    schedule: Schedule.rate(Duration.minutes(10)),
-    targets: [new LambdaFunction(fn)],
-  });
+  // new Rule(scope, "HourlySchedule", {
+  //   schedule: Schedule.rate(Duration.minutes(10)),
+  //   targets: [new LambdaFunction(fn)],
+  // });
 
   return fn;
 });
