@@ -1,52 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { Schema } from "../amplify/data/resource";
+import { generateClient } from "aws-amplify/data";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
-type AppProps = {
-    user: { loginId: string };
-    signOut: () => void;
-};
+const client = generateClient<Schema>();
 
-type Todo = { id: string; content: string };
+function App() {
+	const { user, signOut } = useAuthenticator();
+	const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
-function App({ user, signOut }: AppProps) {
-    const [todos, setTodos] = useState<Todo[]>([
-        { id: "1", content: "Sample Todo 1" },
-        { id: "2", content: "Sample Todo 2" },
-    ]);
+	useEffect(() => {
+		client.models.Todo.observeQuery().subscribe({
+			next: (data) => setTodos([...data.items]),
+		});
+	}, []);
 
-    function deleteTodo(id: string) {
-        setTodos((prev) => prev.filter((todo) => todo.id !== id));
-    }
+	function deleteTodo(id: string) {
+		client.models.Todo.delete({ id });
+	}
 
-    function createTodo() {
-        const content = window.prompt("Todo content");
-        if (content) {
-            setTodos((prev) => [...prev, { id: Date.now().toString(), content }]);
-        }
-    }
+	function createTodo() {
+		client.models.Todo.create({ content: window.prompt("Todo content") });
+	}
 
-    return (
-        <main>
-            <h1>{user.loginId}'s todos</h1>
-            <button onClick={createTodo}>+ new</button>
-            <ul>
-                {todos.map((todo) => (
-                    <li
-                        onClick={() => deleteTodo(todo.id)}
-                        key={todo.id}>
-                        {todo.content}
-                    </li>
-                ))}
-            </ul>
-            <div>
-                🥳 App successfully hosted. Try creating a new todo.
-                <br />
-                <a href='https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates'>
-                    Review next step of this tutorial.
-                </a>
-            </div>
-            <button onClick={signOut}>Sign out</button>
-        </main>
-    );
+	return (
+		<main>
+			<h1>{user?.signInDetails?.loginId}'s todos</h1>
+			<button onClick={createTodo}>+ new</button>
+			<ul>
+				{todos.map((todo) => (
+					<li
+						onClick={() => deleteTodo(todo.id)}
+						key={todo.id}>
+						{todo.content}
+					</li>
+				))}
+			</ul>
+			<div>
+				🥳 App successfully hosted. Try creating a new todo.
+				<br />
+				<a href='https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates'>
+					Review next step of this tutorial.
+				</a>
+			</div>
+			<button onClick={signOut}>Sign out</button>
+		</main>
+	);
 }
 
 export default App;
