@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { User } from "../models/User";
 import { Vitals } from "../models/vitals";
 
@@ -8,6 +8,7 @@ interface SettingsState {
   emergencyContact: any;
   bluetoothDevice: any;
   vitals: Vitals;
+  emsModalOpen: boolean;
 }
 
 // Initialize the default state structure
@@ -45,10 +46,11 @@ const defaultState: SettingsState = {
   },
   vitals: {
     vitalsId: 0,
-    skinTemp: 0,
-    pulse: 0,
-    spO2: 0,
+    skinTemp: 98,
+    pulse: 70,
+    spO2: 100,
   },
+  emsModalOpen: false,
 };
 
 // Create context with default value
@@ -60,6 +62,7 @@ interface SettingsProviderProps {
 
 export const SettingsProvider = ({ children }: SettingsProviderProps) => {
   const [settingsState, setSettingsState] = useState<SettingsState>(defaultState);
+  const [emsTimeoutId, setEmsTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   // Function to update user data
   const updateUser = (updatedUser: User) => {
@@ -86,12 +89,49 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
   };
 
   // Function to update vitals data
-  const updateVitals = (updatedVitals: any) => {
+  const updateVitals = (updatedVitals: Vitals) => {
     setSettingsState((prevState: SettingsState) => ({
       ...prevState,
       vitals: updatedVitals,
     }));
   };
+
+  const handleCallEMS = () => {
+    setSettingsState((prev) => ({ ...prev, emsModalOpen: false}));
+    window.location.href = 'tel:+15551234567';
+  }
+  const handleCancelEMS = () => {
+    setSettingsState((prev) => ({ ...prev, emsModalOpen: false }));
+    if (emsTimeoutId) {
+        clearTimeout(emsTimeoutId);
+        setEmsTimeoutId(null);
+    }
+  };
+
+  useEffect(()=> {
+    const { skinTemp, pulse, spO2 } = settingsState.vitals;
+
+    const shouldCallEMS = skinTemp < 95 || skinTemp > 105 || spO2 <= 90 || pulse < 30 || pulse > 220;
+   
+    if (shouldCallEMS && !settingsState.emsModalOpen) {
+        setSettingsState((prev) => ({ ...prev, emsModalOpen: true}));
+
+        const timeout = setTimeout(()=> {
+            handleCallEMS();
+        }, 60000); //Auto-call after 1 min
+        setEmsTimeoutId(timeout);
+        }
+        if (!shouldCallEMS && settingsState.emsModalOpen) {
+            handleCancelEMS();
+            //cancels timer and modal if vitals stabilize
+        }
+        return() => {
+            if (emsTimeoutId) {
+                clearTimeout(emsTimeoutId);
+                setEmsTimeoutId(null);
+            }
+        };
+    }, [settingsState.vitals]);
 
   return (
     <SettingsContext.Provider
@@ -101,6 +141,8 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
         updateEmergencyContact,
         updateBluetoothDevice,
         updateVitals,
+        handleCallEMS,
+        handleCancelEMS
       }}
     >
       {children}

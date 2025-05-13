@@ -340,7 +340,11 @@ export default function Settings() {
         </button>
         <div className="my-6">
           <h2 className="text-white text-xl font-bold mb-2">Vitals Manual Input</h2>
+          <label htmlFor="spO2" className="block text-white font-semibold mb-1">
+          Oxygen Saturation (SpO2 %)
+          </label>
           <input
+            id="spO2"
             type="number"
             className="w-full p-3 bg-gray-200 text-blue-700 rounded mb-4  focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-emerald-600 placeholder:opacity-90"
             placeholder="Oxygen Saturation (SpO2)"
@@ -349,7 +353,11 @@ export default function Settings() {
               updateVitals({ ...settingsState.vitals, spO2: Number(e.target.value) })
             }
           />
+          <label htmlFor="skinTemp" className="block text-white font-semibold mb-1">
+          Skin Temperature (°F)
+          </label>
           <input
+            id="skinTemp"
             type="number"
             className="w-full p-3 bg-gray-200 text-blue-700 rounded mb-4  focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-emerald-600 placeholder:opacity-90"
             placeholder="Skin Temperature"
@@ -358,7 +366,11 @@ export default function Settings() {
               updateVitals({...settingsState.vitals, skinTemp: Number(e.target.value) })
             }
           />
+          <label htmlFor="pulse" className="block text-white font-semibold mb-1">
+          Pulse (BPM)
+          </label>
           <input
+            id="pulse"
             type="text"
             className="w-full p-3 bg-gray-200 text-blue-700 rounded mb-4  focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-emerald-600 placeholder:opacity-90"
             placeholder="Heart Rate/Pulse"
