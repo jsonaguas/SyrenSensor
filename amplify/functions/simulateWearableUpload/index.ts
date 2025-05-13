@@ -17,7 +17,7 @@ export const handler = async () => {
   try {
     await docClient.send(
       new PutCommand({
-        TableName: process.env.HEALTH_TABLE_NAME,
+        TableName: process.env.HEALTH_TABLE_NAME="HealthSnapshot-fcq64uo7unhf3oby7fnu3iahsi-NONE",
         Item: healthSnapshot,
       })
     );
