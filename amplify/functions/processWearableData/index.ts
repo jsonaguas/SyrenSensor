@@ -49,6 +49,7 @@ export const handler = async () => {
       new PutCommand({
         TableName: snapshotTable,
         Item: {
+          id,
           userID,
           timestamp,
           heartRate: rawHeartRate,
