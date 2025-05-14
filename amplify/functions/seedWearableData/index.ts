@@ -10,12 +10,12 @@ export const handler = async () => {
   const userID = "test-user-123";
 
   const now = new Date();
-  const timestamp = now.toISOString();
+  // const timestamp = now.toISOString();
 
   const item = {
     id: uuidv4(),
     userID,
-    timestamp,
+    timestamp: now.getTime(),
     rawHeartRate: Math.floor(Math.random() * 40 + 60), // 60–100
     rawO2: Math.floor(Math.random() * 5 + 95),          // 95–100
   };
