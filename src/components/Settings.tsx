@@ -160,9 +160,9 @@ export default function Settings() {
         <div className="mb-6">
           <fieldset>
             <legend className="text-white text-xl font-bold mb-2">User Info</legend>
-            <div className='space-y-4'>
+            <div className='space-y-2'>
               <div>
-                <label htmlFor='firstName' className="block text-white font-semibold mb-1">First Name</label>
+                <label htmlFor='firstName' className="sr-only">First Name</label>
                 <input
                   id='firstName'
                   type="text"
@@ -174,7 +174,7 @@ export default function Settings() {
                 />
               </div>
               <div>
-                <label htmlFor='lastName' className="block text-white font-semibold mb-1">Last Name</label>
+                <label htmlFor='lastName' className="sr-only">Last Name</label>
                 <input
                   id='lastName'
                   aria-label='Last Name'
@@ -186,7 +186,7 @@ export default function Settings() {
                 />
               </div>
               <div>
-                <label htmlFor='age' className="block text-white font-semibold mb-1">Age</label>
+                <label htmlFor='age' className="sr-only">Age</label>
                 <input
                   id='age'
                   aria-label='Age'
@@ -224,7 +224,7 @@ export default function Settings() {
           </fieldset>
           <fieldset>
             <div>
-              <label htmlFor='weight' className="block text-white font-semibold mb-1">Weight</label>
+              <label htmlFor='weight' className="sr-only">Weight</label>
               <input
                 id='weight'
                 aria-label='Weight'
@@ -234,7 +234,7 @@ export default function Settings() {
                 value={settingsState.user.weight}
                 onChange={(e) => updateUser({ ...settingsState.user, weight: e.target.value })}
               />
-              <label htmlFor='height' className="block text-white font-semibold mb-1">Height</label> 
+              <label htmlFor='height' className="sr-only">Height</label> 
               <input
                 id='height'
                 aria-label='height'
@@ -248,7 +248,7 @@ export default function Settings() {
           </fieldset>
           <fieldset>
             <div>
-              <label htmlFor='phoneNumber' className="block text-white font-semibold mb-1">Phone Number</label> 
+              <label htmlFor='phoneNumber' className="sr-only">Phone Number</label> 
               <input
               id='phoneNumber'
               aria-label='Phone Number'
@@ -263,7 +263,7 @@ export default function Settings() {
               <fieldset>
                 <legend className="text-white text-xl font-bold mb-2">Primary Address</legend>
                 <div>
-                  <label htmlFor='buildingNumber' className="block text-white font-semibold mb-1">Building Number</label> 
+                  <label htmlFor='buildingNumber' className="sr-only">Building Number</label> 
                   <input
                     id='buildingNumber'
                     aria-label='Building Number'
@@ -275,7 +275,7 @@ export default function Settings() {
                   />
                 </div>
                 <div>
-                  <label htmlFor='street' className="block text-white font-semibold mb-1">Street</label>
+                  <label htmlFor='street' className="sr-only">Street</label>
                   <input
                     id='street'
                     aria-label='Street'
@@ -287,7 +287,7 @@ export default function Settings() {
                   />
                 </div>
                 <div>
-                  <label htmlFor='aptNumber' className="block text-white font-semibold mb-1">Apt/Unit Number</label>
+                  <label htmlFor='aptNumber' className="sr-only">Apt/Unit Number</label>
                   <input
                   id='aptNumber'
                   aria-label='Apartment or Unit Number'
@@ -299,7 +299,7 @@ export default function Settings() {
                   />
                 </div>
                 <div>
-                  <label htmlFor='city' className="block text-white font-semibold mb-1">City</label>
+                  <label htmlFor='city' className="sr-only">City</label>
                   <input
                     id='city'
                     aria-label='City'
@@ -311,7 +311,7 @@ export default function Settings() {
                   />
                 </div>
                 <div>
-                  <label htmlFor='state' className="block text-white font-semibold mb-1">State</label>
+                  <label htmlFor='state' className="sr-only">State</label>
                   <input
                   id='state'
                   aria-label='State'
@@ -323,7 +323,7 @@ export default function Settings() {
                 />
                 </div>
                 <div>
-                  <label htmlFor='zipCode' className="block text-white font-semibold mb-1">Zip/Postage Code</label>
+                  <label htmlFor='zipCode' className="sr-only">Zip/Postage Code</label>
                   <input
                   id='zipCode'
                   aria-label='Zip or Postage Code'
@@ -335,7 +335,7 @@ export default function Settings() {
                   />
                 </div>
                 <div>
-                  <label htmlFor='country' className="block text-white font-semibold mb-1">Country</label>
+                  <label htmlFor='country' className="sr-only">Country</label>
                   <input
                   id='country'
                   aria-label="Country"
@@ -354,7 +354,7 @@ export default function Settings() {
         <div className="mb-6">
           <legend className="text-white text-xl font-bold mb-2">Emergency Contact Info</legend>
           <div>
-            <label htmlFor='emergencyFirstName' className="block text-white font-semibold mb-1">Emergency Contact First Name</label>
+            <label htmlFor='emergencyFirstName' className="sr-only">Emergency Contact First Name</label>
             <input
               id='emergencyFirstName'
               aria-label='Emergency Contact First Name'
@@ -368,7 +368,7 @@ export default function Settings() {
             />
           </div>
           <div>
-            <label htmlFor="emergencyLastName" className="block text-white font-semibold mb-1">Emergency Contact Last Name</label>
+            <label htmlFor="emergencyLastName" className="sr-only">Emergency Contact Last Name</label>
             <input
               id='emergencyLastName'
               aria-label="Emergency Contact Last Name"
@@ -382,7 +382,7 @@ export default function Settings() {
             />
           </div>
           <div>
-            <label htmlFor="emergencyPhone" className="block text-white font-semibold mb-1">Emergency Contact Phone Number</label>
+            <label htmlFor="emergencyPhone" className="sr-only">Emergency Contact Phone Number</label>
             <input
               id='emergencyPhone'
               aria-label='Emergency Contact Phone Number'
@@ -394,7 +394,7 @@ export default function Settings() {
             />
           </div>
           <div>
-            <label htmlFor="emergencyRelationship" className="block text-white font-semibold mb-1">Emergency Contact Relationship</label>
+            <label htmlFor="emergencyRelationship" className="sr-only">Emergency Contact Relationship</label>
             <input
               id='emergencyRelationship'
               aria-label='Emergency Contact Relationship'
@@ -412,7 +412,7 @@ export default function Settings() {
           <div className="mb-6">
             <legend className="text-white text-xl font-bold mb-2">Bluetooth Device Details</legend>
             <div>
-              <label htmlFor="deviceSerial" className="block text-white font-semibold mb-1">Device Serial Number</label>
+              <label htmlFor="deviceSerial" className="sr-only">Device Serial Number</label>
               <input
                 id='deviceSerial'
                 aria-label='Device Serial Number'
@@ -424,7 +424,7 @@ export default function Settings() {
               />
             </div>
             <div>
-              <label htmlFor="deviceManufacture" className="block text-white font-semibold mb-1">Device Manufacture/Make</label>
+              <label htmlFor="deviceManufacture" className="sr-only">Device Manufacture/Make</label>
               <input
                 id='deviceManufacture'
                 aria-label='Device Manufacturer or Makel'
@@ -436,7 +436,7 @@ export default function Settings() {
               />
             </div>
             <div>
-              <label htmlFor="deviceModel" className="block text-white font-semibold mb-1">Device Model</label>
+              <label htmlFor="deviceModel" className="sr-only">Device Model</label>
               <input
                 id='deviceModel'
                 aria-label='Device Model'
@@ -459,7 +459,7 @@ export default function Settings() {
           Submit
         </button>
         <fieldset>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <legend className="text-white text-xl font-bold mb-2">Vitals Manual Input</legend>
             <div>
             <label htmlFor="spO2" className="block text-white font-semibold mb-1">
