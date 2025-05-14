@@ -1,5 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { v4 as uuidv4 } from "uuid";
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
@@ -12,6 +13,7 @@ export const handler = async () => {
   const timestamp = now.toISOString();
 
   const item = {
+    id: uuidv4(),
     userID,
     timestamp,
     rawHeartRate: Math.floor(Math.random() * 40 + 60), // 60–100
@@ -20,7 +22,7 @@ export const handler = async () => {
 
   await docClient.send(
     new PutCommand({
-      TableName:  process.env.RAW_TABLE_NAME="WearableRawData-fcq64uo7unhf3oby7fnu3iahsi-NONE",
+      TableName:  process.env.RAW_TABLE_NAME!,
       Item: item,
     })
   );
