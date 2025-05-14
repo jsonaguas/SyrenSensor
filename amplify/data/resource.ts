@@ -14,9 +14,11 @@ const schema = a.schema({
       oxygenLevel: a.integer(),
       timestamp: a.timestamp(),
     })
-    .authorization((allow) => [allow.owner()]).secondaryIndexes((index) => [
-	index("userID")
-	]),
+  //   .authorization((allow) => [allow.owner()]).secondaryIndexes((index) => [
+	// index("userID")
+  .secondaryIndexes((index) => [
+  index("userID").sortKeys(["timestamp"])
+  ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
