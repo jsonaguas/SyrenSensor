@@ -9,7 +9,8 @@ export const schema = a.schema({
 
   HealthSnapshot: a
     .model({
-      userID: a.id(),
+      id: a.id(),
+      userID: a.string(),
       heartRate: a.integer(),
       oxygenLevel: a.integer(),
       timestamp: a.timestamp(),
@@ -21,7 +22,8 @@ export const schema = a.schema({
 
   WearableRawData: a
     .model({
-      userID: a.id(),
+      id: a.id(),
+      userID: a.string(),
       timestamp: a.timestamp(),
       rawHeartRate: a.integer(),
       rawO2: a.integer(),
