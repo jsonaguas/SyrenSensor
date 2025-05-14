@@ -72,7 +72,7 @@ export const handler = async () => {
     await docClient.send(
       new UpdateCommand({
         TableName: rawTable,
-        Key: {id},
+        Key: {id: id},
         UpdateExpression: "SET #processed = :true",
         ExpressionAttributeNames: {
           "#processed": "processed",
