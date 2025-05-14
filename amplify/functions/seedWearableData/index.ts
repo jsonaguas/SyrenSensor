@@ -6,7 +6,7 @@ const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler = async () => {
-  const userID = "test-user-123";
+  // const userID = "test-user-123";
 
   const now = new Date();
   // const timestamp = now.toISOString();
