@@ -26,5 +26,6 @@ export const handler = async () => {
   );
 
   console.log("Added raw data item:", item);
+  console.log("Available ENV VARS:", JSON.stringify(process.env, null, 2));
   return { statusCode: 200, body: JSON.stringify({ message: "Item added", item }) };
 };
