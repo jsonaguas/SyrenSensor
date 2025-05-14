@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { User } from "../models/User";
-import { Vitals } from "../models/vitals";
+import { Vitals } from "../models/Vitals";
 
 // Define the initial structure of the settings state
 interface SettingsState {
