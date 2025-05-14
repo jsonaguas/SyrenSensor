@@ -22,7 +22,7 @@ export const handler = async () => {
 
   await docClient.send(
     new PutCommand({
-      TableName:  process.env.RAW_TABLE_NAME!,
+      TableName:  process.env.NEW_TABLE_NAME!,
       Item: item,
     })
   );
