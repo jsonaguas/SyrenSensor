@@ -37,9 +37,9 @@ export const handler = async () => {
   }
 
   for (const item of items) {
-    const { id, userID, timestamp, rawHeartRate, rawO2 } = item;
+    const {userID, timestamp, rawHeartRate, rawO2 } = item;
 
-    if (!id ||!userID || !timestamp) {
+    if (!userID || !timestamp) {
       console.warn("Skipping invalid item:", item);
       continue;
     }
@@ -49,15 +49,25 @@ export const handler = async () => {
       new PutCommand({
         TableName: snapshotTable,
         Item: {
-          id,
-          userID,
-          timestamp,
+          userID: userID,
+          timestamp: timestamp,
           heartRate: rawHeartRate,
           oxygenLevel: rawO2,
         },
       })
     );
+    const rawId = item.id;
+    const id =
+      typeof rawId === "string"
+        ? rawId
+        : typeof rawId?.toString === "function"
+          ? rawId.toString()
+          : null;
 
+    if (!id) {
+      console.warn("Invalid id format:", item.id);
+      continue;
+    }
     // 3. Mark raw data item as processed
     await docClient.send(
       new UpdateCommand({
