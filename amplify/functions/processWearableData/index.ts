@@ -37,9 +37,9 @@ export const handler = async () => {
   }
 
   for (const item of items) {
-    const { userID, timestamp, rawHeartRate, rawO2 } = item;
+    const { id, userID, timestamp, rawHeartRate, rawO2 } = item;
 
-    if (!userID || !timestamp) {
+    if (!id ||!userID || !timestamp) {
       console.warn("Skipping invalid item:", item);
       continue;
     }
@@ -49,6 +49,7 @@ export const handler = async () => {
       new PutCommand({
         TableName: snapshotTable,
         Item: {
+          id,
           userID,
           timestamp,
           heartRate: rawHeartRate,
