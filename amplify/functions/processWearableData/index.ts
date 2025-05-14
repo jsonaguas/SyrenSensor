@@ -12,13 +12,13 @@ const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler = async () => {
-  const rawTable = process.env.RAW_TABLE_NAME!;
-  const snapshotTable = process.env.SNAPSHOT_TABLE_NAME!;
+  // const rawTable = process.env.RAW_TABLE_NAME!;
+  // const snapshotTable = process.env.SNAPSHOT_TABLE_NAME!;
 
   // 1. Scan for raw entries that haven’t been processed
   const rawData = await docClient.send(
     new ScanCommand({
-      TableName: rawTable,
+      TableName: process.env.RAW_TABLE_NAME="WearableRawData-fcq64uo7unhf3oby7fnu3iahsi-NONE",
       FilterExpression: "attribute_not_exists(processed)",
     })
   );
@@ -34,7 +34,7 @@ export const handler = async () => {
     // 2. Write processed snapshot
     await docClient.send(
       new PutCommand({
-        TableName: snapshotTable,
+        TableName: process.env.SNAPSHOT_TABLE_NAME="HealthSnapshot-fcq64uo7unhf3oby7fnu3iahsi-NONE",
         Item: {
           userID,
           timestamp,
@@ -47,7 +47,7 @@ export const handler = async () => {
     // 3. Optionally mark raw item as processed
 await docClient.send(
   new UpdateCommand({
-    TableName: rawTable,
+    TableName: process.env.RAW_TABLE_NAME="WearableRawData-fcq64uo7unhf3oby7fnu3iahsi-NONE",
     Key: {
       userID,
       timestamp,
