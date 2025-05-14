@@ -62,7 +62,7 @@ export const handler = async () => {
     await docClient.send(
       new UpdateCommand({
         TableName: rawTable,
-        Key: { userID, timestamp}, // ✅ assumes id is the primary key
+        Key: { userID, timestamp},
         UpdateExpression: "SET #processed = :true",
         ExpressionAttributeNames: {
           "#processed": "processed",

@@ -6,7 +6,6 @@ const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler = async () => {
-  // const tableName = process.env.NEW_TABLE_NAME!;
   const userID = "test-user-123";
 
   const now = new Date();
