@@ -6,5 +6,5 @@ import { simulateWearableUpload } from "./functions/simulateWearableUpload/resou
 defineBackend({
 	auth,
 	data,
-	simulateWearableUpload,
+	simulateWearableUpload
 });

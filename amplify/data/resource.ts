@@ -18,6 +18,20 @@ const schema = a.schema({
     .secondaryIndexes((index) => [
       index("userID").sortKeys(["timestamp"])
     ]),
+
+  WearableRawData: a
+    .model({
+      userID: a.id(),
+      timestamp: a.timestamp(),
+      rawHeartRate: a.integer(),
+      rawO2: a.integer(),
+      processed: a.boolean(),
+    })
+    .authorization((allow) => [allow.owner()])
+    .secondaryIndexes((index) => [
+      index("userID").sortKeys(["timestamp"])
+    ]),
+
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -28,3 +42,4 @@ export const data = defineData({
     defaultAuthorizationMode: "userPool",
   },
 });
+
