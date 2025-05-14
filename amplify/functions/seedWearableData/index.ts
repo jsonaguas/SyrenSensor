@@ -5,7 +5,7 @@ const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler = async () => {
-  const tableName = process.env.NEW_TABLE_NAME!;
+  // const tableName = process.env.NEW_TABLE_NAME!;
   const userID = "test-user-123";
 
   const now = new Date();
@@ -20,7 +20,7 @@ export const handler = async () => {
 
   await docClient.send(
     new PutCommand({
-      TableName: tableName,
+      TableName:  process.env.RAW_TABLE_NAME="WearableRawData-fcq64uo7unhf3oby7fnu3iahsi-NONE",
       Item: item,
     })
   );
