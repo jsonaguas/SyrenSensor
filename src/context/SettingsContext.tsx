@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { User } from "../models/User";
 import { Vitals } from "../models/Vitals";
 
@@ -107,6 +108,7 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
         setEmsTimeoutId(null);
     }
   };
+  const location = useLocation()
 
   useEffect(()=> {
     const { skinTemp, pulse, spO2 } = settingsState.vitals;
@@ -131,7 +133,7 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
                 setEmsTimeoutId(null);
             }
         };
-    }, [settingsState.vitals]);
+    }, [settingsState.vitals, location.pathname]);
 
   return (
     <SettingsContext.Provider
