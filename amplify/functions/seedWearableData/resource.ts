@@ -4,6 +4,6 @@ export const seedWearableData = defineFunction({
   name: "seedWearableData",
   entry: "./index.ts",
   environment: {
-    NEW_TABLE_NAME: process.env.DATA_WEARABLERAWDATA_NAME!,
+    NEW_TABLE_NAME: "wearableRawData",
   },
 });
