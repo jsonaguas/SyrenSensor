@@ -6,6 +6,7 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import outputs from "../amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
+import { BrowserRouter } from "react-router-dom";
 
 
 
@@ -72,8 +73,10 @@ const formFields = {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
+		<BrowserRouter>
 		<Authenticator formFields={formFields}>
 			<App />
 		</Authenticator>
+		</BrowserRouter>
 	</React.StrictMode>
 );
