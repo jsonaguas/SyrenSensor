@@ -113,7 +113,7 @@ function App() {
   try {
     const { idToken } = await getAuthToken();
 
-    const url = `https://lesiun05ul.execute-api.us-east-1.amazonaws.com/getLatestVitals?userID=${encodeURIComponent(user.signInDetails?.loginId ?? "")}`;
+    const url = `https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/getLatestVitals?userID=${encodeURIComponent(user.signInDetails?.loginId ?? "")}`;
     console.log("🌐 Requesting:", url);
 
     const res = await fetch(url, {
