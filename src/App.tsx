@@ -109,20 +109,35 @@ function App() {
   useEffect(() => {
     if (!user) return;
 
-    async function fetchVitals() {
-      const { idToken } = await getAuthToken();
+   async function fetchVitals() {
+  try {
+    const { idToken } = await getAuthToken();
 
-      const res = await fetch(`https://lesiun05ul.execute-api.us-east-1.amazonaws.com/getLatestVitals?userID=${encodeURIComponent(user.signInDetails?.loginId ?? "")}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
+    const url = `https://lesiun05ul.execute-api.us-east-1.amazonaws.com/getLatestVitals?userID=${encodeURIComponent(user.signInDetails?.loginId ?? "")}`;
+    console.log("🌐 Requesting:", url);
 
-      const data = await res.json();
-      setLatestSnapshot(data);
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
+    console.log("📥 Response status:", res.status);
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`HTTP ${res.status}: ${errorText}`);
     }
 
+    const data = await res.json();
+    console.log("📊 Fetched data:", data);
+    setLatestSnapshot(data);
+
+  } catch (err) {
+    console.error("❌ Error fetching vitals:", err);
+  }
+}
     fetchVitals();
   }, [user]);
 
