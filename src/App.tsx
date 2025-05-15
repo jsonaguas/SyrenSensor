@@ -114,7 +114,7 @@ function App() {
     const { idToken } = await getAuthToken();
 
     const url = `https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/getLatestVitals?userID=${encodeURIComponent(user.signInDetails?.loginId ?? "")}`;
-    console.log("🌐 Requesting:", url);
+    console.log("Requesting:", url);
 
     const res = await fetch(url, {
       method: 'GET',
@@ -123,7 +123,7 @@ function App() {
       },
     });
 
-    console.log("📥 Response status:", res.status);
+    console.log("Response status:", res.status);
 
     if (!res.ok) {
       const errorText = await res.text();
@@ -131,11 +131,11 @@ function App() {
     }
 
     const data = await res.json();
-    console.log("📊 Fetched data:", data);
+    console.log("Fetched data:", data);
     setLatestSnapshot(data);
 
   } catch (err) {
-    console.error("❌ Error fetching vitals:", err);
+    console.error("Error fetching vitals:", err);
   }
 }
     fetchVitals();
