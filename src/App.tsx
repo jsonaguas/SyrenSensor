@@ -186,7 +186,9 @@ function App() {
   }, [user]);
 
   return (
-    <main>
+ 
+<SettingsProvider>
+	<main>
       {latestSnapshot ? (
         <div>
           <h2>Latest Vitals</h2>
@@ -198,7 +200,6 @@ function App() {
         <p>Loading latest vitals...</p>
       )}
       <button onClick={signOut}>Sign Out</button>
-		<SettingsProvider>
 			<div className="flex flex-col min-h-screen">
 				<div className='flex-grow'>
 					<Routes>
@@ -210,9 +211,9 @@ function App() {
 				<NavBar/>
 				<EMSModal/>
 			</div>
+			</main>
 		</SettingsProvider>
-	);
-    </main>
+
   );
 }
 export default App;
