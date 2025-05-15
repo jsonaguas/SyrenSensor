@@ -43,13 +43,13 @@
 //   },
 // });
 
-import { defineData } from "@aws-amplify/backend";
-import { schema} from "./schema"; // ✅ pull from schema file
+// import { defineData } from "@aws-amplify/backend";
+// import { schema} from "./schema"; // ✅ pull from schema file
 
-export const data = defineData({
-  schema,
-  authorizationModes: {
-    defaultAuthorizationMode: "userPool",
-  },
-} as const);
+// export const data = defineData({
+//   schema,
+//   authorizationModes: {
+//     defaultAuthorizationMode: "userPool",
+//   },
+// } as const);
 
