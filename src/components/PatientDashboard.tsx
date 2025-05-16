@@ -2,6 +2,7 @@
 // import { User } from "../models/User";
 import { useSettingsContext } from "../context/SettingsContext";
 import syrenLogo from '../assets/syrensensor2.png'
+import VitalsCard from "./VitalsCard";
 
 export default function PatientDashboard() {
   const { settingsState } = useSettingsContext();
@@ -95,13 +96,15 @@ export default function PatientDashboard() {
             </p>
             </div>
           <div aria-labelledby="vitals-title" aria-live='polite'>
-            <h3 id="vitals-title" className="text-white text-lg font-semibold mt-6 mb-4">Patient Vitals:</h3>
+            <VitalsCard />
+            
+            {/* <h3 id="vitals-title" className="text-white text-lg font-semibold mt-6 mb-4">Patient Vitals:</h3>
             {Object.entries(settingsState.vitals).filter(([key])=> key !== 'vitalsId').map(([key, value]) => (
               <p key={key} className="text-white mb-3 capitalize">
                 <span className="font-semibold">{key}:</span>
                 <span className="font-normal">{Number(value)}</span>
               </p>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>
