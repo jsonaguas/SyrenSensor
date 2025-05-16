@@ -10,6 +10,7 @@ interface SettingsState {
   bluetoothDevice: any;
   vitals: Vitals;
   emsModalOpen: boolean;
+  emsTriggeredManually: boolean;
 }
 
 // Initialize the default state structure
@@ -52,6 +53,7 @@ const defaultState: SettingsState = {
     spO2: 100,
   },
   emsModalOpen: false,
+  emsTriggeredManually: false,
 };
 
 // Create context with default value
@@ -98,11 +100,15 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
   };
 
   const handleCallEMS = () => {
-    setSettingsState((prev) => ({ ...prev, emsModalOpen: false}));
+    setSettingsState((prev) => ({ ...prev, emsModalOpen: false,
+      emsTriggeredManually: false,
+    }));
     window.location.href = 'tel:+15551234567';
   }
   const handleCancelEMS = () => {
-    setSettingsState((prev) => ({ ...prev, emsModalOpen: false }));
+    setSettingsState((prev) => ({ ...prev, emsModalOpen: false,
+      emsTriggeredManually: false,
+     }));
     if (emsTimeoutId) {
         clearTimeout(emsTimeoutId);
         setEmsTimeoutId(null);
@@ -139,6 +145,7 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     <SettingsContext.Provider
       value={{
         settingsState,
+        setSettingsState,
         updateUser,
         updateEmergencyContact,
         updateBluetoothDevice,

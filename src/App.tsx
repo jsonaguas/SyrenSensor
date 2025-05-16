@@ -137,10 +137,36 @@ import Settings from "./components/Settings";
 import NavBar from './components/NavBar';
 import { SettingsProvider, useSettingsContext } from './context/SettingsContext';
 
+import { useEffect, useState } from "react";
+
 function EMSModal() {
   const { settingsState, handleCallEMS, handleCancelEMS } = useSettingsContext();
+  const [evaluatedVitals, setEvaluatedVitals] = useState(settingsState.vitals);
+
+  useEffect(() => {
+    if (settingsState.emsModalOpen) {
+      setEvaluatedVitals(settingsState.vitals);
+      console.log("Modal opened — captured vitals:", settingsState.vitals);
+    }
+  }, [settingsState.emsModalOpen]);
 
   if (!settingsState.emsModalOpen) return null;
+
+  const { skinTemp, pulse, spO2 } = evaluatedVitals;
+
+  const isAbnormal =
+    skinTemp < 95 || skinTemp > 105 ||
+    pulse < 30 || pulse > 220 ||
+    spO2 <= 90;
+
+  const title = isAbnormal ? "Emergency Activation" : "Confirm EMS Call";
+  const message = isAbnormal
+    ? "Critical vitals detected. Do you want to call an EMS dispatcher?"
+    : "Vitals are currently stable. Are you sure you want to call 911?";
+
+  const autoCallMessage = isAbnormal
+    ? "Automatically calling in 60 seconds if no action is taken."
+    : null;
 
   return (
     <div
@@ -152,34 +178,35 @@ function EMSModal() {
     >
       <div className="bg-white p-6 rounded-lg max-w-sm w-full">
         <h2 id="ems-modal-title" className="text-lg font-semibold mb-2">
-          Emergency Activation
+          {title}
         </h2>
         <p id="ems-modal-description" className="mb-4">
-          Critical vitals detected. Do you want to call an EMS dispatcher?
+          {message}
         </p>
         <div className="mt-4 flex justify-between">
           <button
-            aria-label="Cancel automatic EMS call"
             onClick={handleCancelEMS}
             className="text-black bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-md"
           >
             Cancel
           </button>
           <button
-            aria-label="Confirm EMS call now"
             onClick={handleCallEMS}
             className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-md"
           >
             Call EMS
           </button>
         </div>
-        <p className="text-xs text-gray-600 mt-4 text-center" aria-live="assertive">
-          Automatically calling in 60 seconds if no action is taken.
-        </p>
+        {autoCallMessage && (
+          <p className="text-xs text-gray-600 mt-4 text-center" aria-live="assertive">
+            {autoCallMessage}
+          </p>
+		)}
       </div>
     </div>
   );
 }
+
 
 function App() {
   return (
