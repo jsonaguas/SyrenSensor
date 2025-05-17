@@ -131,6 +131,7 @@
 // }
 // export default App;
 
+
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import PatientDashboard from "./components/PatientDashboard";
 import Settings from "./components/Settings";
@@ -170,8 +171,6 @@ function EMSModal() {
     ? "Automatically calling in 60 seconds if no action is taken."
     : null;
 
-
-
   return (
     <div
       role="dialog"
@@ -181,12 +180,8 @@ function EMSModal() {
       className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50"
     >
       <div className="bg-white p-6 rounded-lg max-w-sm w-full">
-        <h2 id="ems-modal-title" className="text-lg font-semibold mb-2">
-          {title}
-        </h2>
-        <p id="ems-modal-description" className="mb-4">
-          {message}
-        </p>
+        <h2 id="ems-modal-title" className="text-lg font-semibold mb-2">{title}</h2>
+        <p id="ems-modal-description" className="mb-4">{message}</p>
         <div className="mt-4 flex justify-between">
           <button
             onClick={handleCancelEMS}
@@ -205,85 +200,99 @@ function EMSModal() {
           <p className="text-xs text-gray-600 mt-4 text-center" aria-live="assertive">
             {autoCallMessage}
           </p>
-		)}
+        )}
       </div>
     </div>
   );
 }
 
-
 function App() {
-const { user } = useAuthenticator();
+  const { user } = useAuthenticator();
   const navigate = useNavigate();
+  const [profileChecked, setProfileChecked] = useState(false);
 
   useEffect(() => {
-  const checkProfile = async () => {
-    
-     if (!user?.signInDetails?.loginId) {
+    const checkProfile = async () => {
+      const userID = user?.signInDetails?.loginId;
+
+      if (!userID) {
         console.warn("User not ready yet");
         return;
-     }
-     const userID = user.signInDetails?.loginId;
-    try {
-      const session = await fetchAuthSession();
-      const idToken = session.tokens?.idToken?.toString();
-    if (!idToken) {
+      }
+
+      try {
+        const session = await fetchAuthSession();
+        const idToken = session.tokens?.idToken?.toString();
+
+        if (!idToken) {
           console.error("No ID token available");
           return;
         }
-      const res = await fetch(`https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/get-profile?userID=${encodeURIComponent(userID)}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${idToken}`, // 🔐 add this
-        },
-      });
-      if (!res.ok) {
+
+        const res = await fetch(`https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/get-profile?userID=${encodeURIComponent(userID)}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+
+        if (!res.ok) {
           const errorText = await res.text();
           throw new Error(`HTTP ${res.status}: ${errorText}`);
         }
-      const data = await res.json();
 
-       if (!data || !data.firstName) {
-    console.warn("Missing profile data");
-    navigate("/complete-registration");
-    return;
-  }
+        const data = await res.json();
+        console.log("🔎 Profile check:", data);
 
-      const isComplete =
-        data.firstName &&
-        data.lastName &&
-        data.phoneNumber &&
-        data.relationship &&
-        data.height &&
-        data.weight;
+        if (!data) {
+          console.warn("No data returned — redirecting to complete-registration");
+          navigate("/complete-registration");
+          return;
+        }
 
-      if (!isComplete) {
+        const requiredFields = ["firstName", "lastName", "phoneNumber", "relationship", "height", "weight"];
+        const isComplete = requiredFields.every((key) => !!data[key]);
+        console.log("✅ isComplete:", isComplete);
+        if (!isComplete && window.location.pathname !== "/complete-registration") {
+          console.warn("Incomplete profile — redirecting to registration");
+          navigate("/complete-registration");
+      } else if (isComplete && window.location.pathname === "/complete-registration") {
+          console.log("Already completed registration, redirecting to dashboard");
+          navigate("/dashboard", { replace: true });
+}
+      } catch (err) {
+        console.error("Failed to fetch profile:", err);
         navigate("/complete-registration");
       }
-    } catch (err) {
-      console.error("Failed to fetch profile:", err);
-      navigate("/complete-registration"); // fallback if error
-    }
-  };
+    };
 
-  checkProfile();
-}, [user]);
+    (async () => {
+      await checkProfile();
+      setProfileChecked(true);
+    })();
+  }, [user]);
+
+  console.log("📍 Current route:", window.location.pathname);
 
   return (
     <SettingsProvider>
       <main>
-        <div className="flex flex-col min-h-screen">
-          <div className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="/dashboard" element={<PatientDashboard />} />
-              <Route path="/settings" element={<Settings />} />
-<Route path="/complete-registration" element={<CompleteRegistration />} />
-            </Routes>
+        {!profileChecked ? (
+          <p className="text-center mt-10">Checking profile...</p>
+        ) : (
+          <div className="flex flex-col min-h-screen">
+            <div className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                <Route path="/dashboard" element={<PatientDashboard />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/complete-registration" element={<CompleteRegistration />} />
+              </Routes>
+            </div>
+            <NavBar />
+            <EMSModal />
           </div>
-          <NavBar />
-          <EMSModal />
-        </div>
+        )}
       </main>
     </SettingsProvider>
   );
