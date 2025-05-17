@@ -131,13 +131,15 @@
 // }
 // export default App;
 
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import PatientDashboard from "./components/PatientDashboard";
 import Settings from "./components/Settings";
 import NavBar from './components/NavBar';
 import { SettingsProvider, useSettingsContext } from './context/SettingsContext';
-
+import CompleteRegistration from './components/CompleteRegistration';
 import { useEffect, useState } from "react";
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { fetchAuthSession } from '@aws-amplify/auth';
 
 function EMSModal() {
   const { settingsState, handleCallEMS, handleCancelEMS } = useSettingsContext();
@@ -167,6 +169,8 @@ function EMSModal() {
   const autoCallMessage = isAbnormal
     ? "Automatically calling in 60 seconds if no action is taken."
     : null;
+
+
 
   return (
     <div
@@ -209,6 +213,62 @@ function EMSModal() {
 
 
 function App() {
+const { user } = useAuthenticator();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  const checkProfile = async () => {
+    
+     if (!user?.signInDetails?.loginId) {
+        console.warn("User not ready yet");
+        return;
+     }
+     const userID = user.signInDetails?.loginId;
+    try {
+      const session = await fetchAuthSession();
+      const idToken = session.tokens?.idToken?.toString();
+    if (!idToken) {
+          console.error("No ID token available");
+          return;
+        }
+      const res = await fetch(`https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/get-profile?userID=${encodeURIComponent(userID)}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${idToken}`, // 🔐 add this
+        },
+      });
+      if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error(`HTTP ${res.status}: ${errorText}`);
+        }
+      const data = await res.json();
+
+       if (!data || !data.firstName) {
+    console.warn("Missing profile data");
+    navigate("/complete-registration");
+    return;
+  }
+
+      const isComplete =
+        data.firstName &&
+        data.lastName &&
+        data.phoneNumber &&
+        data.relationship &&
+        data.height &&
+        data.weight;
+
+      if (!isComplete) {
+        navigate("/complete-registration");
+      }
+    } catch (err) {
+      console.error("Failed to fetch profile:", err);
+      navigate("/complete-registration"); // fallback if error
+    }
+  };
+
+  checkProfile();
+}, [user]);
+
   return (
     <SettingsProvider>
       <main>
@@ -218,6 +278,7 @@ function App() {
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<PatientDashboard />} />
               <Route path="/settings" element={<Settings />} />
+<Route path="/complete-registration" element={<CompleteRegistration />} />
             </Routes>
           </div>
           <NavBar />
