@@ -1,9 +1,6 @@
 export interface User {
     userId: number;
-    name: {
-      firstName: string;
-      lastName: string;
-    };
+    name: string;
     age: number;
     gender: string | null;
     height: string;

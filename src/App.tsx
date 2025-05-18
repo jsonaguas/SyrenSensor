@@ -210,7 +210,7 @@ function App() {
   const { user } = useAuthenticator();
   const navigate = useNavigate();
   const [profileChecked, setProfileChecked] = useState(false);
-
+  const { setSettingsState } = useSettingsContext();
   useEffect(() => {
     const checkProfile = async () => {
       const userID = user?.signInDetails?.loginId;
@@ -272,10 +272,79 @@ function App() {
     })();
   }, [user]);
 
+  useEffect(() => {
+  const loadPatientInfo = async () => {
+    const loginId = user?.signInDetails?.loginId;
+    const session = await fetchAuthSession();
+    const idToken = session.tokens?.idToken?.toString();
+
+    if (!loginId || !idToken) return;
+    if (!user?.signInDetails?.loginId) {
+  console.warn("User not ready — skipping patient info load");
+  return;
+}
+
+
+    try {
+      // Get name + dob from UserSignUp
+      const signupRes = await fetch(`https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/SignUp?userID=${encodeURIComponent(loginId)}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${idToken}` },
+      });
+      const signupData = await signupRes.json();
+    
+      // Get height + weight from emergencyContacts
+      const contactRes = await fetch(`https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/get-profile?userID=${encodeURIComponent(loginId)}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${idToken}` },
+      });
+      const contactData = await contactRes.json();
+       console.log("📦 contactData:", contactData);
+
+      // 👇 Age calculation
+      const calculateAge = (dobStr) => {
+        if (!dobStr) return null;
+        const dob = new Date(dobStr);
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
+        return age;
+      };
+      const signupItem = signupData;
+      console.log("🧾 signupItem:", signupItem);
+      const age = calculateAge(signupItem?.DOB);
+
+      // ⬇ Push to SettingsContext
+    setSettingsState((prev) => ({
+      ...prev,
+      user: {
+        ...prev.user,
+        name: signupItem?.name || "—",
+        age: age || 0,
+        gender: signupItem?.gender || "—",
+        height: contactData?.height || "—",
+        weight: contactData?.weight || "—",
+      }, 
+      
+    }));
+    console.log("✅ setSettingsState called with name:", signupItem.name);
+
+
+    } catch (err) {
+      console.error("Error fetching patient info:", err);
+    }
+  };
+
+  loadPatientInfo();
+}, [user]);
+
+  
   console.log("📍 Current route:", window.location.pathname);
 
   return (
-    <SettingsProvider>
       <main>
         {!profileChecked ? (
           <p className="text-center mt-10">Checking profile...</p>
@@ -294,7 +363,6 @@ function App() {
           </div>
         )}
       </main>
-    </SettingsProvider>
   );
 }
 

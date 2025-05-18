@@ -6,64 +6,7 @@ import VitalsCard from "./VitalsCard";
 
 export default function PatientDashboard() {
   const { settingsState } = useSettingsContext();
-  // const [patient, setPatient] = useState<User>({
-  //   userId: 0,
-  //   name: {
-  //     firstName: "",
-  //     lastName: ""
-  //   },
-  //   age: 0,
-  //   gender: "",
-  //   height: "",
-  //   weight: "",
-  //   phoneNumber: "",
-  //   primaryAddress: {
-  //     buildingNumber: "",
-  //     street: "",
-  //     aptUnitNumber: "",
-  //     zipCode: "",
-  //     city: "",
-  //     state: "",
-  //     country: ""
-  //   },
-  // });
-
-  // const [vitals, setVitals] = useState({
-  //   vitalsId: 0,
-  //   skinTemp: 0,
-  //   pulse: 0,
-  //   spO2: 0
-  // });
-
-  // useEffect(() => {
-  //   setPatient({
-  //     userId: Date.now(),
-  //     name: {
-  //       firstName: "John",
-  //       lastName: "Doe"
-  //     },
-  //     age: 40,
-  //     gender: "male",
-  //     height: "72in",
-  //     weight: "190 lbs.",
-  //     phoneNumber: "123-456-7890",
-  //     primaryAddress: {
-  //       buildingNumber: "100",
-  //       street: "main st.",
-  //       aptUnitNumber: "PH4",
-  //       zipCode: "12345",
-  //       city: "Schenectady",
-  //       state: "NY",
-  //       country: "United States"
-  //     }
-  //   });
-  //   setVitals({
-  //     vitalsId: 1,
-  //     skinTemp: 98,
-  //     pulse: 70,
-  //     spO2: 100
-  //   });
-  // }, []);
+  console.log("🧠 Dashboard render → name is:", settingsState.user.name);
 
   return (
     <div aria-labelledby='dashboard-title' className="flex-1 bg-[#2b2b2c] min-h-screen overflow-y-auto px-4 py-6 mb-10">
@@ -76,7 +19,8 @@ export default function PatientDashboard() {
 
             <p className="text-white mb-3 capitalize">
               <span className="font-semibold">Name:</span>{" "}
-              <span className="font-normal">{`${settingsState.user.name.firstName} ${settingsState.user.name.lastName}`}</span>
+              <span className="font-normal">{settingsState.user.name}</span>
+              
             </p>
             <p className="text-white mb-3 capitalize">
               <span className="font-semibold">Age:</span>{" "}
@@ -97,14 +41,7 @@ export default function PatientDashboard() {
             </div>
           <div aria-labelledby="vitals-title" aria-live='polite'>
             <VitalsCard />
-            
-            {/* <h3 id="vitals-title" className="text-white text-lg font-semibold mt-6 mb-4">Patient Vitals:</h3>
-            {Object.entries(settingsState.vitals).filter(([key])=> key !== 'vitalsId').map(([key, value]) => (
-              <p key={key} className="text-white mb-3 capitalize">
-                <span className="font-semibold">{key}:</span>
-                <span className="font-normal">{Number(value)}</span>
-              </p>
-            ))} */}
+
           </div>
         </div>
       </div>
