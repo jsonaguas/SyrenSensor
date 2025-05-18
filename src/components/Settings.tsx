@@ -162,27 +162,17 @@ export default function Settings() {
             <legend className="text-white text-xl font-bold mb-2">User Info</legend>
             <div className='space-y-2'>
               <div>
-                <label htmlFor='firstName' className="sr-only">First Name</label>
+                <label htmlFor='name' className="sr-only">Full Name</label>
                 <input
-                  id='firstName'
+                  id='name'
                   type="text"
-                  aria-label='First Name'
-                  className="w-full p-3 bg-gray-200 text-blue-700 rounded mb-4  focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-emerald-600 placeholder:opacity-90"
-                  placeholder="First Name"
-                  value={settingsState.user.name.firstName}
-                  onChange={(e) => updateUser({ ...settingsState.user, name: { ...settingsState.user.name, firstName: e.target.value } })}
-                />
-              </div>
-              <div>
-                <label htmlFor='lastName' className="sr-only">Last Name</label>
-                <input
-                  id='lastName'
-                  aria-label='Last Name'
-                  type="text"
-                  className="w-full p-3 bg-gray-200 text-blue-700 rounded mb-4  focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-emerald-600 placeholder:opacity-90"
-                  placeholder="Last Name"
-                  value={settingsState.user.name.lastName}
-                  onChange={(e) => updateUser({ ...settingsState.user, name: { ...settingsState.user.name, lastName: e.target.value } })}
+                  aria-label='Full Name'
+                  className="w-full p-3 bg-gray-200 text-blue-700 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-emerald-600 placeholder:opacity-90"
+                  placeholder="Full Name"
+                  value={settingsState.user.name}
+                  onChange={(e) =>
+                    updateUser({ ...settingsState.user, name: e.target.value })
+                  }
                 />
               </div>
               <div>
