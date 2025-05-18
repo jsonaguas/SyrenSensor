@@ -136,7 +136,7 @@ import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import PatientDashboard from "./components/PatientDashboard";
 import Settings from "./components/Settings";
 import NavBar from './components/NavBar';
-import { SettingsProvider, useSettingsContext } from './context/SettingsContext';
+import { useSettingsContext } from './context/SettingsContext';
 import CompleteRegistration from './components/CompleteRegistration';
 import { useEffect, useState } from "react";
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -302,7 +302,7 @@ function App() {
        console.log("📦 contactData:", contactData);
 
       // 👇 Age calculation
-      const calculateAge = (dobStr) => {
+      const calculateAge = (dobStr: string) => {
         if (!dobStr) return null;
         const dob = new Date(dobStr);
         const today = new Date();
