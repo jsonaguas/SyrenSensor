@@ -153,7 +153,7 @@ export default function Settings() {
 
   return (
     <div aria-labelledby='settings-form-title' className="min-h-screen bg-[#2b2b2c] p-6 flex flex-col items-center justify-start mb-10">
-      <h1 id='settings-orm-title' className='sr-only'>Syren Sensor Settings</h1>
+      <h1 id='settings-form-title' className='sr-only'>Syren Sensor Settings</h1>
       <img className='w-60 h-60 mb-6 mx-auto bg-[#2b2b2c]' alt="Syren Sensor Logo" src={syrenLogo}/>
       <form className="max-w-2xl mx-auto bg-black px-6 py-4 rounded-lg shadow-lg my-6">
         <p id='settings-form-description' className='sr-only'>Form to update user information, emergency contact, and device details.</p>
