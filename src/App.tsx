@@ -242,7 +242,7 @@ function App() {
         }
 
         const data = await res.json();
-        console.log("🔎 Profile check:", data);
+        console.log("Profile check:", data);
 
         if (!data) {
           console.warn("No data returned — redirecting to complete-registration");
@@ -252,7 +252,7 @@ function App() {
 
         const requiredFields = ["firstName", "lastName", "phoneNumber", "relationship", "height", "weight"];
         const isComplete = requiredFields.every((key) => !!data[key]);
-        console.log("✅ isComplete:", isComplete);
+        console.log("isComplete:", isComplete);
         if (!isComplete && window.location.pathname !== "/complete-registration") {
           console.warn("Incomplete profile — redirecting to registration");
           navigate("/complete-registration");
@@ -299,7 +299,7 @@ function App() {
         headers: { Authorization: `Bearer ${idToken}` },
       });
       const contactData = await contactRes.json();
-       console.log("📦 contactData:", contactData);
+       console.log("contactData:", contactData);
 
       // 👇 Age calculation
       const calculateAge = (dobStr: string) => {
@@ -314,7 +314,7 @@ function App() {
         return age;
       };
       const signupItem = signupData;
-      console.log("🧾 signupItem:", signupItem);
+      console.log("signupItem:", signupItem);
       const age = calculateAge(signupItem?.DOB);
 
       // ⬇ Push to SettingsContext
@@ -330,7 +330,7 @@ function App() {
       }, 
       
     }));
-    console.log("✅ setSettingsState called with name:", signupItem.name);
+    console.log("setSettingsState called with name:", signupItem.name);
 
 
     } catch (err) {
@@ -342,7 +342,7 @@ function App() {
 }, [user]);
 
   
-  console.log("📍 Current route:", window.location.pathname);
+  console.log("Current route:", window.location.pathname);
 
   return (
       <main>
