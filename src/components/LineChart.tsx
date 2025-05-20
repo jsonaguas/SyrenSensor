@@ -16,7 +16,7 @@ type HealthSnapshot = {
   userID: string;
   heartRate: number;
   oxygenLevel: number;
-  timestamp: string;
+  timestamp: string | number;
 };
 
 export default function VitalsChart() {
@@ -55,7 +55,7 @@ export default function VitalsChart() {
           new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
         );
 
-        const formatted = sorted.map((entry) => ({
+        const formatted = sorted.map((entry:HealthSnapshot) => ({
           ...entry,
           date: new Date(entry.timestamp).toLocaleDateString(),
         }));
