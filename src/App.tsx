@@ -167,7 +167,7 @@ function App() {
       const contactData = await contactRes.json();
        console.log("contactData:", contactData);
 
-      // 👇 Age calculation
+      // Age calculation
       const calculateAge = (dobStr: string) => {
         if (!dobStr) return null;
         const dob = new Date(dobStr);
@@ -183,7 +183,7 @@ function App() {
       console.log("signupItem:", signupItem);
       const age = calculateAge(signupItem?.DOB);
 
-      // ⬇ Push to SettingsContext
+      // Push to SettingsContext
     setSettingsState((prev) => ({
       ...prev,
       user: {

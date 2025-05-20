@@ -22,6 +22,7 @@
     "react-icons": "^5.5.0",
     "react-router": "^6.30.0",
     "react-router-dom": "^6.30.0",
+    "recharts": "^2.15.3",
     "ts-algebra": "^2.0.0"
   },
   "devDependencies": {

@@ -1,8 +1,7 @@
-// import { useEffect, useState } from "react";
-// import { User } from "../models/User";
 import { useSettingsContext } from "../context/SettingsContext";
 import syrenLogo from '../assets/syrensensor2.png'
 import VitalsCard from "./VitalsCard";
+import VitalsChart from "./LineChart";
 
 export default function PatientDashboard() {
   const { settingsState } = useSettingsContext();
@@ -42,6 +41,11 @@ export default function PatientDashboard() {
             <section aria-labelledby="vitals-title" aria-live='polite'>
               <VitalsCard className="text-white"/>
             </section>
+            <section aria-labelledby="chart-title" className="mt-8">
+              <h3 id="chart-title" className="text-white text-lg font-semibold mb-2">Vitals (Last 30 Days)</h3>
+              <VitalsChart />
+            </section>
+
           </div>
       </div>
     </div>
