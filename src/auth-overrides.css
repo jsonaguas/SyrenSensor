@@ -1,0 +1,17 @@
+[data-amplify-theme] {
+  /* these two variables drive the “card” & “inner section” backgrounds */
+  --amplify-colors-background-primary:   #2b2b2c !important;
+  --amplify-colors-background-secondary: #2b2b2c !important;
+}
+
+/* 2) Force the dialog container itself to that gray, in case it hard-codes white */
+[data-amplify-theme] .amplify-form-section,
+[data-amplify-theme] .amplify-form-container {
+  background-color: #2b2b2c !important;
+}
+
+/* 3) Make every “primary” button green, full-width, padded & rounded */
+.amplify-button--primary {
+  background-color: #059669 !important; 
+  color:            #ffffff !important; /* text-white */
+}

@@ -8,8 +8,9 @@ type HealthSnapshot = {
   oxygenLevel: number;
   timestamp: string;
 };
+type Props = { className?: string };
 
-export default function VitalsCard() {
+export default function VitalsCard({ className = "" }: Props) {
   const { user } = useAuthenticator();
   const [latestSnapshot, setLatestSnapshot] = useState<HealthSnapshot | null>(null);
 
@@ -49,11 +50,11 @@ export default function VitalsCard() {
   }, [user]);
 
   if (!latestSnapshot) {
-    return <p className="text-white">Loading latest vitals...</p>;
+    return <p className={`${className} text-white`}>Loading latest vitals...</p>;
   }
 
   return (
-    <div className="bg-gray-800 rounded-lg p-4 shadow-md text-white">
+    <div className={`${className} text-white`}>
       <h2 className="text-lg font-semibold mb-2">Latest Vitals</h2>
       <p>Heart Rate: {latestSnapshot.heartRate}</p>
       <p>Oxygen Level: {latestSnapshot.oxygenLevel}</p>
