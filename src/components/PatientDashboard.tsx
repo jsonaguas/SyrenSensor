@@ -13,7 +13,7 @@ export default function PatientDashboard() {
       <div className="flex flex-col items-center">
         <h1 id='dashboard-title' className='sr-only'>Syren Sensor</h1>
         <img className='w-40 h-40 mb-6 mx-auto bg-[#2b2b2c]' alt="Syren Sensor Logo" src={syrenLogo}/>
-          <div className="w-full max-w-screen-lg bg-black rounded-2xl border border-blue-500 shadow-lg px-8 py-10 text-white space-y-8">
+          <div className="w-full sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto bg-black rounded-2xl border border-blue-500 shadow-lg px-4 sm:px-8 py-10 text-white space-y-8">
             <section  aria-labelledby="patient-info-title">
             <h3 id='patient-info-title' className="text-white text-lg font-semibold mb-2">Patient Info:</h3>
 

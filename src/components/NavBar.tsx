@@ -9,7 +9,7 @@ export default function NavBar() {
 
   return (
     <nav role="navigation" aria-label="footer nav bar" className="fixed bottom-0 left-0 w-full bg-[#2b2b2c] text-white z-40 overflow-x-auto">
-      <div className="flex justify-between items-center flex-nowrap px-2 py-2 sm:gap-x-4 sm:px-4 sm:py-3">
+      <div className="flex justify-between lg:justify-around items-center flex-nowrap px-2 py-2 sm:gap-x-4 sm:px-4 sm:py-3">
           <NavLink
             to="/dashboard"
             aria-label="Patient Dashboard"
