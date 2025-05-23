@@ -7,7 +7,6 @@ import CompleteRegistration from './components/CompleteRegistration';
 import { useEffect, useState } from "react";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { fetchAuthSession } from '@aws-amplify/auth';
-import { sign } from 'crypto';
 
 function EMSModal() {
   const { settingsState, handleCallEMS, handleCancelEMS } = useSettingsContext();
