@@ -7,6 +7,7 @@ import CompleteRegistration from './components/CompleteRegistration';
 import { useEffect, useState } from "react";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { fetchAuthSession } from '@aws-amplify/auth';
+import { sign } from 'crypto';
 
 function EMSModal() {
   const { settingsState, handleCallEMS, handleCancelEMS } = useSettingsContext();
@@ -193,8 +194,20 @@ function App() {
         gender: signupItem?.gender || "—",
         height: contactData?.height || "—",
         weight: contactData?.weight || "—",
-      }, 
-      
+        primaryAddress: {
+          ...prev.user.primaryAddress,
+          street: signupItem?.address || "—",
+      }}, 
+        emergencyContact: {
+    ...prev.emergencyContact,
+        name: {
+          firstName: contactData?.firstName || "—",
+          lastName: contactData?.lastName || "—",
+        },
+        phoneNumber: contactData?.phoneNumber || "—",
+        relationship: contactData?.relationship || "—",
+
+      },
     }));
     console.log("setSettingsState called with name:", signupItem.name);
 

@@ -5,7 +5,7 @@ import VitalsChart from "./LineChart";
 
 export default function PatientDashboard() {
   const { settingsState } = useSettingsContext();
-  console.log("🧠 Dashboard render → name is:", settingsState.user.name);
+  console.log("Dashboard render → name is:", settingsState.user.name);
 
   return (
     <div aria-labelledby='dashboard-title' className="flex-1 bg-[#2b2b2c] min-h-screen overflow-y-auto px-4 py-6 mb-10">

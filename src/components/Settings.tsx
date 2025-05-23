@@ -25,56 +25,12 @@ export default function Settings() {
     error: null,
   });
 
-
-  // const [user, setUser] = useState<User>({
-  //   userId: 0,
-  //   name: { firstName: '', lastName: '' },
-  //   age: 0,
-  //   gender: null,
-  //   height: '',
-  //   weight: '',
-  //   phoneNumber: '',
-  //   primaryAddress: {
-  //     buildingNumber: '',
-  //     street: '',
-  //     aptUnitNumber: '',
-  //     zipCode: '',
-  //     city: '',
-  //     state: '',
-  //     country: '',
-  //   },
-  // });
-
-  // const [emergencyContact, setEmergencyContact] = useState({
-  //   contactId: 0,
-  //   userId: 0,
-  //   name: { firstName: '', lastName: '' },
-  //   phoneNumber: '',
-  //   relationship: '',
-  // });
-
-  // const [bluetoothDevice, setBluetoothDevice] = useState({
-  //   deviceId: 0,
-  //   serialNumber: '',
-  //   deviceMake: '',
-  //   deviceModel: '',
-  // });
-
-  //   const [vitals, setVitals] = useState({
-  //   vitalsId: 0,
-  //   skinTemp: 0,
-  //   pulse: 0,
-  //   spO2: 0
-  // });
-
   const handleSubmit = () => {
     try {
       const userSubmit = JSON.stringify(settingsState.user);
       const emergencyContactSubmit = JSON.stringify(settingsState.emergencyContact);
       const bluetoothDeviceSubmit = JSON.stringify(settingsState.bluetoothDevice);
 
-      // Replace with actual axios POST call to your API
-      // axios.post('API_URL', { userSubmit, emergencyContactSubmit, bluetoothDeviceSubmit });
       console.log(userSubmit)
       console.log(emergencyContactSubmit)
       console.log(bluetoothDeviceSubmit)
@@ -142,13 +98,7 @@ export default function Settings() {
     updateBluetoothDevice({...settingsState.bluetoothDevice, deviceId: generatedUserId+2});
     updateVitals({...settingsState.vitals, vitalsId: generatedUserId +3});
   }
-    // const generatedContactId = generatedUserId + 1;
-    // const generatedDeviceId = generatedUserId + 2;
-    // const generatedVitalsId = generatedUserId + 3;
-    // setUser((prev) => ({ ...prev, userId: generatedUserId }));
-    // setEmergencyContact((prev) => ({ ...prev, userId: generatedUserId, contactId: generatedContactId }));
-    // setBluetoothDevice((prev) => ({ ...prev, deviceId: generatedDeviceId }));
-    // setVitals((prev) => ({...prev, vitalsId: generatedVitalsId}))
+
   }, []);
 
   return (
