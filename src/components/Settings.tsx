@@ -350,6 +350,22 @@ export default function Settings() {
 
         <fieldset>
           <div className="mb-6">
+            <legend className="text-white text-xl font-bold mb-2">Connect to Fitbit</legend>
+            <a
+              href={`https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=23QJKP&redirect_uri=${encodeURIComponent(
+                "https://dev-ja.d113xysrintyrk.amplifyapp.com/fitbit/callback"
+              )}&scope=profile%20heartrate%20activity&expires_in=604800`}
+            >
+              <button
+                type="button"
+                className="w-full p-3 bg-purple-600 rounded text-white font-bold mb-4 hover:bg-purple-700 transition"
+              >
+                Connect to Fitbit
+              </button>
+            </a>
+          </div>
+
+          <div className="mb-6">
             <legend className="text-white text-xl font-bold mb-2">Bluetooth Device Details</legend>
             <div>
               <label htmlFor="deviceSerial" className="sr-only">Device Serial Number</label>

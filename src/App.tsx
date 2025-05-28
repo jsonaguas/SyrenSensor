@@ -7,6 +7,7 @@ import CompleteRegistration from './components/CompleteRegistration';
 import { useEffect, useState } from "react";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { fetchAuthSession } from '@aws-amplify/auth';
+import FitbitCallback from './components/FitbitCallback';
 
 function EMSModal() {
   const { settingsState, handleCallEMS, handleCancelEMS } = useSettingsContext();
@@ -234,6 +235,7 @@ function App() {
                 <Route path="/dashboard" element={<PatientDashboard />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/complete-registration" element={<CompleteRegistration />} />
+                <Route path="/fitbit/callback" element={<FitbitCallback />} />
               </Routes>
             </div>
             <NavBar />
