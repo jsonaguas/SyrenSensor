@@ -8,6 +8,8 @@ import {
 import { useLocation } from "react-router-dom";
 import { User } from "../models/User";
 import { Vitals } from "../models/Vitals";
+import { fetchAuthSession } from "aws-amplify/auth";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface SettingsState {
   user: User;
@@ -81,6 +83,7 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
   const [settingsState, setSettingsState] = useState<SettingsState>(defaultState);
   const [emsTimeoutId, setEmsTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const location = useLocation();
+  const { user } = useAuthenticator((context) => [context.user]);
 
   const updateUser = (updatedUser: User) => {
     setSettingsState((prevState) => ({
@@ -110,14 +113,80 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     }));
   };
 
-  const handleCallEMS = () => {
-    setSettingsState((prev) => ({
-      ...prev,
-      emsModalOpen: false,
-      emsTriggeredManually: false,
-    }));
+  // const handleCallEMS = () => {
+  //   setSettingsState((prev) => ({
+  //     ...prev,
+  //     emsModalOpen: false,
+  //     emsTriggeredManually: false,
+  //   }));
+  //   window.location.href = "tel:+15551234567";
+  // };
+  const handleCallEMS = async () => {
+  // Close modal immediately
+  setSettingsState((prev) => ({
+    ...prev,
+    emsModalOpen: false,
+    emsTriggeredManually: false,
+  }));
+
+  if (!navigator.geolocation) {
+    console.error("Geolocation is not supported");
     window.location.href = "tel:+15551234567";
-  };
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      const { latitude, longitude } = position.coords;
+      console.log("Location:", latitude, longitude);
+
+      try {
+        const session = await fetchAuthSession();
+        const idToken = session.tokens?.idToken?.toString();
+        const userID = user?.signInDetails?.loginId || ""; //  // change to .loginId if needed
+
+        if (!idToken || !userID) {
+          console.error("Missing auth or user ID");
+          return;
+        }
+
+        const res = await fetch("https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/send-location", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({
+            userID,
+            latitude,
+            longitude,
+            timestamp: new Date().toISOString(),
+          }),
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          console.error("Backend error:", text);
+        } else {
+          console.log("Location sent to backend");
+        }
+      } catch (err) {
+        console.error("Failed to send location to backend", err);
+      } finally {
+        // Trigger EMS call regardless
+        window.location.href = "tel:+15551234567";
+      }
+    },
+    (err) => {
+      console.error("Geolocation error:", err);
+      window.location.href = "tel:+15551234567"; // fallback
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+    }
+  );
+};
 
   const handleCancelEMS = () => {
     setSettingsState((prev) => ({
