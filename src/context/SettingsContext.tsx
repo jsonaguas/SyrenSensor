@@ -129,6 +129,45 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     emsTriggeredManually: false,
   }));
 
+  const sendLocation = async (latitude: number, longitude: number) => {
+    try {
+      const session = await fetchAuthSession();
+      const idToken = session.tokens?.idToken?.toString();
+      const userID = user?.signInDetails?.loginId || "";
+
+      if (!idToken || !userID) {
+        console.error("Missing auth or user ID");
+        return;
+      }
+
+      const res = await fetch("https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/send-location", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          userID,
+          latitude,
+          longitude,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Backend error:", text);
+      } else {
+        console.log("Location sent to backend");
+      }
+    } catch (err) {
+      console.error("Failed to send location to backend", err);
+    } finally {
+      // Trigger EMS call regardless
+      window.location.href = "tel:+15551234567";
+    }
+  };
+
   if (!navigator.geolocation) {
     console.error("Geolocation is not supported");
     window.location.href = "tel:+15551234567";
@@ -136,50 +175,30 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
   }
 
   navigator.geolocation.getCurrentPosition(
-    async (position) => {
+    (position) => {
       const { latitude, longitude } = position.coords;
-      console.log("Location:", latitude, longitude);
-
-      try {
-        const session = await fetchAuthSession();
-        const idToken = session.tokens?.idToken?.toString();
-        const userID = user?.signInDetails?.loginId || ""; //  // change to .loginId if needed
-
-        if (!idToken || !userID) {
-          console.error("Missing auth or user ID");
-          return;
-        }
-
-        const res = await fetch("https://lesiun05ul.execute-api.us-east-1.amazonaws.com/demo/send-location", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`,
-          },
-          body: JSON.stringify({
-            userID,
-            latitude,
-            longitude,
-            timestamp: new Date().toISOString(),
-          }),
-        });
-
-        if (!res.ok) {
-          const text = await res.text();
-          console.error("Backend error:", text);
-        } else {
-          console.log("Location sent to backend");
-        }
-      } catch (err) {
-        console.error("Failed to send location to backend", err);
-      } finally {
-        // Trigger EMS call regardless
-        window.location.href = "tel:+15551234567";
-      }
+      console.log("Location acquired:", latitude, longitude);
+      sendLocation(latitude, longitude);
     },
     (err) => {
       console.error("Geolocation error:", err);
-      window.location.href = "tel:+15551234567"; // fallback
+
+      switch (err.code) {
+        case 1:
+          alert("Permission denied. Please enable location access.");
+          break;
+        case 2:
+          alert("Location unavailable. Using fallback location for testing.");
+          break;
+        case 3:
+          alert("Location request timed out.");
+          break;
+        default:
+          alert("Unknown geolocation error.");
+      }
+
+      // Fallback location: San Francisco
+      sendLocation(37.7749, -122.4194);
     },
     {
       enableHighAccuracy: true,
@@ -187,6 +206,7 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     }
   );
 };
+
 
   const handleCancelEMS = () => {
     setSettingsState((prev) => ({
