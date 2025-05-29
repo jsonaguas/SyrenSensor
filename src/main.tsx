@@ -104,19 +104,21 @@ function AuthGate() {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<SettingsProvider>
-				<ThemeProvider theme={darkTheme} colorMode="dark">
-					<div className="min-h-screen flex flex-col items-center justify-center sm:justify-start pt-4 sm:pt-12 md:pt-16 pb-8 overflow-auto bg-[#2b2b2c]">
-						<Authenticator
-							formFields={formFields}
-							components={{ Header: LogoHeader }}
-							className="w-full max-w-xs sm:max-w-md mb-8">
-								<AuthGate />
-						</Authenticator>
-					</div>
-				</ThemeProvider>
-			</SettingsProvider>
-		</BrowserRouter>
+		<Authenticator.Provider>
+			<BrowserRouter>
+				<SettingsProvider>
+					<ThemeProvider theme={darkTheme} colorMode="dark">
+						<div className="min-h-screen flex flex-col items-center justify-center sm:justify-start pt-4 sm:pt-12 md:pt-16 pb-8 overflow-auto bg-[#2b2b2c]">
+							<Authenticator
+								formFields={formFields}
+								components={{ Header: LogoHeader }}
+								className="w-full max-w-xs sm:max-w-md mb-8">
+									<AuthGate />
+							</Authenticator>
+						</div>
+					</ThemeProvider>
+				</SettingsProvider>
+			</BrowserRouter>
+		</Authenticator.Provider>
 	</React.StrictMode>
 );
