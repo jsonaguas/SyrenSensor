@@ -16,6 +16,9 @@ export default function CompleteRegistration() {
     weight: "",
   });
 
+  const [contactConsent, setContactConsent] = useState(false);
+
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
@@ -117,6 +120,19 @@ export default function CompleteRegistration() {
             required
             className="w-full border px-3 py-2 rounded"
         />
+      <div className="flex items-start">
+        <input
+          type="checkbox"
+          id="contactConsent"
+          checked={contactConsent}
+          onChange={(e) => setContactConsent(e.target.checked)}
+          required
+          className="mt-1 mr-2"
+        />
+        <label htmlFor="contactConsent" className="text-sm">
+          I confirm this emergency contact has consented to receive SMS alerts from this app.
+        </label>
+      </div>
 
       <button
         type="submit"
