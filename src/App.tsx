@@ -79,6 +79,8 @@ function App() {
   const navigate = useNavigate();
   const [profileChecked, setProfileChecked] = useState(false);
   const { setSettingsState } = useSettingsContext();
+
+
   useEffect(() => {
     const checkProfile = async () => {
       const userID = user?.signInDetails?.loginId;
@@ -224,6 +226,14 @@ function App() {
   
   console.log("Current route:", window.location.pathname);
 
+if (window.location.pathname === "/opt-in") {
+  return (
+    <main className="p-4">
+      <OptIn />
+    </main>
+  );
+}
+
   return (
       <main>
         {!profileChecked ? (
@@ -237,7 +247,6 @@ function App() {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/complete-registration" element={<CompleteRegistration />} />
                 <Route path="/fitbit/callback" element={<FitbitCallback />} />
-                <Route path="/opt-in" element={<OptIn />} />
               </Routes>
             </div>
             <NavBar />
