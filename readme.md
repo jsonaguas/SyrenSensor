@@ -3,7 +3,7 @@
 This is a personal fork of the [Syren Sensor] (https://github.com/MatthewGUser/Syren-Sensor/tree/main) 
 project, where I worked on backend infrastructure for emergency health monitoring
 using AWS services with a small interdisciplinary team of frontend and cybersecurity
-for the Coding Temple's bootcamp Tech Residency.
+for the Coding Temple's bootcamp Tech Residency. Peruse the code on the branch [dev-JA].
 
 ## Contributions
 I contributed to core backend functionality, especially around health data ingestion,
