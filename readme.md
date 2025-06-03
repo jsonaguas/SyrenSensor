@@ -9,7 +9,7 @@ for the Coding Temple's bootcamp Tech Residency. Peruse the code on the branch [
 I contributed to core backend functionality, especially around health data ingestion,
 emergency response logic, and secure API access. 
 
-### Technifcal Highlights 
+### Technical Highlights 
 - Built Lambda functions to:
     - Simulate wearable health vitals with randomized data
     - Import and process vitals into a separate DynamoDB table
